@@ -7,10 +7,15 @@ import android.database.Cursor;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import java.util.ArrayList;
@@ -24,13 +29,42 @@ public class MainActivity extends AppCompatActivity {
 
   private ArrayList<String> permissionsToRequest = new ArrayList<>();
 
-  private List<AudioFileModal> audioFilesList = new ArrayList<>();
+  private ArrayList<AudioFileModal> audioFilesList = new ArrayList<>();
 
+  private String[] tabTitles = { "All", "Albums", "Artists" };
+
+  private SongsPagerAdapter songsPagerAdapter;
+
+  @BindView(R.id.toolbar) Toolbar toolbar;
+  @BindView(R.id.sliding_tab_layout) SlidingTabLayout tabLayout;
+  @BindView(R.id.sliding_tab_view_pager) ViewPager tabsViewPager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    ButterKnife.bind(this);
+
+    setSupportActionBar(toolbar);
+    showSongsView();
     checkPermissionsAndGetData();
+  }
+
+  private void showSongsView() {
+    // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+    songsPagerAdapter = new SongsPagerAdapter(getSupportFragmentManager()
+        , tabTitles, tabTitles.length, audioFilesList);
+    tabsViewPager.setAdapter(songsPagerAdapter);
+    tabLayout.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+    // Setting Custom Color for the Scroll bar indicator of the Tab View
+    tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+      @Override
+      public int getIndicatorColor(int position) {
+        return ContextCompat.getColor(MainActivity.this, R.color.colorAccent);
+      }
+    });
+    // Setting the ViewPager For the SlidingTabsLayout
+    tabLayout.setViewPager(tabsViewPager);
   }
 
   private void checkPermissionsAndGetData() {
@@ -80,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override public void onNext(AudioFileModal audioFileModal) {
+        Log.d("file name", audioFileModal.getName());
         audioFilesList.add(audioFileModal);
+        songsPagerAdapter.updateSongsList(audioFileModal);
       }
 
       @Override public void onError(Throwable e) {
