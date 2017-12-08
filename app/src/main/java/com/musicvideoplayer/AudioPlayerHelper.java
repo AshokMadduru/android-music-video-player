@@ -18,7 +18,7 @@ public class AudioPlayerHelper {
   private String[] audioFileContents = new String[] {
       MediaStore.Audio.Media._ID, MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ARTIST,
       MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.DISPLAY_NAME,
-      MediaStore.Audio.Media.ALBUM_ID
+      MediaStore.Audio.Media.ALBUM_ID, MediaStore.Audio.Media.DURATION
   };
 
   private Cursor getAudioFilesCursor(Context activityContext) {
@@ -45,7 +45,8 @@ public class AudioPlayerHelper {
               cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)),
               cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)),
               cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)),
-              cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)));
+              cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)),
+              cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)));
           e.onNext(fileData);
         } while (cursor.moveToNext());
       }
