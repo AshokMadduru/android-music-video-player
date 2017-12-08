@@ -16,13 +16,16 @@ public class AudioFileModal implements Parcelable{
   private String name;
   private String artist;
   private String album;
+  private Long albumId;
 
-  public AudioFileModal(String id, String data, String name, String artist, String album) {
+  public AudioFileModal(String id, String data, String name, String artist, String album,
+      Long albumId) {
     this.id = id;
     this.data = data;
     this.name = name;
     this.artist = artist;
     this.album = album;
+    this.albumId = albumId;
   }
 
   public String getId() {
@@ -45,6 +48,10 @@ public class AudioFileModal implements Parcelable{
     return album;
   }
 
+  public Long getAlbumId() {
+    return albumId;
+  }
+
   @Override public int describeContents() {
     return 0;
   }
@@ -55,6 +62,7 @@ public class AudioFileModal implements Parcelable{
     parcel.writeString(name);
     parcel.writeString(artist);
     parcel.writeString(album);
+    parcel.writeLong(albumId);
   }
 
   private AudioFileModal(Parcel parcel) {
@@ -63,6 +71,7 @@ public class AudioFileModal implements Parcelable{
     this.name = parcel.readString();
     this.artist = parcel.readString();
     this.album = parcel.readString();
+    this.albumId = parcel.readLong();
   }
 
   public static final Creator<AudioFileModal> CREATOR = new Creator<AudioFileModal>() {

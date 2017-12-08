@@ -15,10 +15,10 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class AudioPlayerHelper {
-
   private String[] audioFileContents = new String[] {
       MediaStore.Audio.Media._ID, MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ARTIST,
-      MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.DISPLAY_NAME
+      MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.DISPLAY_NAME,
+      MediaStore.Audio.Media.ALBUM_ID
   };
 
   private Cursor getAudioFilesCursor(Context activityContext) {
@@ -44,7 +44,8 @@ public class AudioPlayerHelper {
               cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)),
               cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)),
               cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)),
-              cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)));
+              cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)),
+              cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)));
           e.onNext(fileData);
         } while (cursor.moveToNext());
       }
