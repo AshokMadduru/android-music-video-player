@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
   private ArrayList<AudioFileModal> audioFilesList = new ArrayList<>();
 
-  private String[] tabTitles = { "All", "Albums", "Artists" };
+  private String[] tabTitles = { "All" };//, "Albums", "Artists" };
 
   private SongsPagerAdapter songsPagerAdapter;
 

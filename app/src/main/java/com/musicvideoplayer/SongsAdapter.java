@@ -42,7 +42,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
     holder.songName.setText(songsList.get(position).getName());
     holder.songDetails.setText(songsList.get(position).getArtist());
-    holder.songDuration.setText(songsList.get(position).getDuration());
+    //holder.songDuration.setText(songsList.get(position).getDuration());
     holder.songImage.setImageBitmap(getAlbumArt(context, songsList.get(position).getAlbumId()));
   }
 
@@ -74,7 +74,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
     @BindView(R.id.song_image) ImageView songImage;
     @BindView(R.id.song_name) TextView songName;
     @BindView(R.id.song_details) TextView songDetails;
-    @BindView(R.id.song_duration) TextView songDuration;
+    //@BindView(R.id.song_duration) TextView songDuration;
 
     ViewHolder(View view) {
       super(view);
